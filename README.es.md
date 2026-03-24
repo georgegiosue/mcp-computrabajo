@@ -64,10 +64,10 @@ Abre el archivo de configuración de Claude Desktop:
 ### Opción 2: Claude Code
 
 ```bash
-claude mcp add computrabajo \
-  -e CT_COOKIES="ut=...; uca=...; ncac=...; nca=...; trl=..." \
-  -e CT_COUNTRY="pe" \
-  -- bun /ruta/absoluta/a/mcp-computrabajo/src/index.ts
+claude mcp add --transport stdio \
+  --env CT_COOKIES="ut=...; uca=...; ncac=...; nca=...; trl=..." \
+  --env CT_COUNTRY=pe \
+  computrabajo -- bun /ruta/absoluta/a/mcp-computrabajo/src/index.ts
 ```
 
 ### Opción 3: Clonar y ejecutar localmente
