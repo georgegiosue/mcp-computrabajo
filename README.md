@@ -39,13 +39,41 @@
 4. Right-click a request → Copy as cURL
 5. Extract the cookie string from the `-b` or `--cookie` flag
 
-### Option 1: Claude Desktop
+### Option 1: Claude Desktop (Recommended)
 
 Open your Claude Desktop configuration file:
 
 - **macOS**: `~/Library/Application Support/Claude/claude_desktop_config.json`
 - **Windows**: `%APPDATA%\Claude\claude_desktop_config.json`
 - **Linux**: `~/.config/Claude/claude_desktop_config.json`
+
+```json
+{
+  "mcpServers": {
+    "computrabajo": {
+      "command": "npx",
+      "args": ["mcp-computrabajo@latest"],
+      "env": {
+        "CT_COOKIES": "ut=...; uca=...; ncac=...; nca=...; trl=...",
+        "CT_COUNTRY": "pe"
+      }
+    }
+  }
+}
+```
+
+Restart Claude Desktop. You'll see an MCP indicator when the server is connected.
+
+### Option 2: Claude Code
+
+```bash
+claude mcp add --transport stdio \
+  --env CT_COOKIES="ut=...; uca=...; ncac=...; nca=...; trl=..." \
+  --env CT_COUNTRY=pe \
+  computrabajo -- npx mcp-computrabajo@latest
+```
+
+### Option 3: Claude Desktop (with Bun)
 
 ```json
 {
@@ -62,7 +90,7 @@ Open your Claude Desktop configuration file:
 }
 ```
 
-### Option 2: Claude Code
+### Option 4: Claude Code (with Bun)
 
 ```bash
 claude mcp add --transport stdio \
@@ -71,7 +99,7 @@ claude mcp add --transport stdio \
   computrabajo -- bun /absolute/path/to/mcp-computrabajo/src/index.ts
 ```
 
-### Option 3: Clone and run locally
+### Option 5: Clone and run locally
 
 ```bash
 git clone https://github.com/georgegiosue/mcp-computrabajo.git
