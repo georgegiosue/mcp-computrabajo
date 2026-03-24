@@ -28,12 +28,13 @@ export class ComputrabajoHttpRepository implements ComputrabajoRepository {
       params.page,
     );
 
+    const cookies = api.getCookies();
     const res = await fetch(url, {
       headers: {
         ...api.headers,
         Accept:
           "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
-        Cookie: api.getCookies(),
+        ...(cookies ? { Cookie: cookies } : {}),
       },
     });
 
@@ -191,7 +192,7 @@ export class ComputrabajoHttpRepository implements ComputrabajoRepository {
         ...api.headers,
         Accept: "application/json, text/javascript, */*; q=0.01",
         "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
-        Cookie: api.getCookies(),
+        Cookie: api.requireCookies(),
         Origin: `https://${country}.computrabajo.com`,
         Referer: `https://${country}.computrabajo.com/`,
       },

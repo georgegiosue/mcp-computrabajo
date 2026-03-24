@@ -1,10 +1,28 @@
+import { existsSync, readFileSync } from "node:fs";
+import { homedir } from "node:os";
+import { join } from "node:path";
+
 export type CountryCode = "pe" | "co" | "mx" | "ar" | "cl" | "ec";
 
-function getCookies(): string {
-  const cookies = process.env.CT_COOKIES;
+const DEFAULT_COOKIE_FILE = join(homedir(), ".computrabajo", "cookies.txt");
+
+function getCookies(): string | undefined {
+  const envCookies = process.env.CT_COOKIES;
+  if (envCookies) return envCookies;
+
+  const cookieFile = process.env.CT_COOKIES_FILE || DEFAULT_COOKIE_FILE;
+  if (existsSync(cookieFile)) {
+    return readFileSync(cookieFile, "utf-8").trim();
+  }
+
+  return undefined;
+}
+
+function requireCookies(): string {
+  const cookies = getCookies();
   if (!cookies) {
     throw new Error(
-      "CT_COOKIES environment variable is required. Export your Computrabajo session cookies.",
+      "No cookies found. Run 'bun run auth' to login, or set CT_COOKIES env var.",
     );
   }
   return cookies;
@@ -16,6 +34,7 @@ function getDefaultCountry(): CountryCode {
 
 export const api = {
   getCookies,
+  requireCookies,
   getDefaultCountry,
   headers: {
     "User-Agent":

@@ -82,11 +82,24 @@ bun install
 
 ---
 
+## Autenticación
+
+Las cookies **solo son necesarias para postular a empleos** (`apply-to-job`). Buscar y ver detalles de ofertas funciona sin autenticación.
+
+### Orden de resolución de cookies
+
+El MCP lee las cookies de la primera fuente disponible:
+
+1. Variable de entorno `CT_COOKIES`
+2. Archivo en la variable de entorno `CT_COOKIES_FILE`
+3. `~/.computrabajo/cookies.txt`
+
 ## Variables de Entorno
 
 | Variable | Requerida | Default | Descripción |
 |----------|-----------|---------|-------------|
-| `CT_COOKIES` | Sí | — | Cadena completa de cookies de tu sesión del navegador |
+| `CT_COOKIES` | No | — | Cadena completa de cookies de tu sesión del navegador |
+| `CT_COOKIES_FILE` | No | `~/.computrabajo/cookies.txt` | Ruta a un archivo con la cadena de cookies |
 | `CT_COUNTRY` | No | `pe` | Código de país: `pe`, `co`, `mx`, `ar`, `cl`, `ec` |
 
 ---

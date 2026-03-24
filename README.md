@@ -82,11 +82,24 @@ bun install
 
 ---
 
+## Authentication
+
+Cookies are **only required for applying to jobs** (`apply-to-job`). Searching and viewing job details work without authentication.
+
+### Cookie resolution order
+
+The MCP reads cookies from the first available source:
+
+1. `CT_COOKIES` environment variable
+2. File at `CT_COOKIES_FILE` environment variable
+3. `~/.computrabajo/cookies.txt`
+
 ## Environment Variables
 
 | Variable | Required | Default | Description |
 |----------|----------|---------|-------------|
-| `CT_COOKIES` | Yes | — | Full cookie string from your browser session |
+| `CT_COOKIES` | No | — | Full cookie string from your browser session |
+| `CT_COOKIES_FILE` | No | `~/.computrabajo/cookies.txt` | Path to a file containing the cookie string |
 | `CT_COUNTRY` | No | `pe` | Country code: `pe`, `co`, `mx`, `ar`, `cl`, `ec` |
 
 ---
