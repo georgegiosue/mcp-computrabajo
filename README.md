@@ -114,6 +114,19 @@ The MCP reads cookies from the first available source:
 
 ---
 
+## Screenshots
+
+### Searching for jobs
+![Searching for software engineering jobs in Lima](images/image-1.png)
+
+### Applying to a job
+![Applying to a job offer through Claude Code](images/image-2.png)
+
+### Confirmation on Computrabajo
+![Job application confirmed on Computrabajo website](images/image-3.png)
+
+---
+
 ## Usage Examples
 
 Once connected, you can ask Claude naturally:

@@ -114,6 +114,19 @@ El MCP lee las cookies de la primera fuente disponible:
 
 ---
 
+## Capturas de Pantalla
+
+### Búsqueda de empleos
+![Buscando empleos de ingeniería de software en Lima](images/image-1.png)
+
+### Postulación a una oferta
+![Postulando a una oferta de empleo a través de Claude Code](images/image-2.png)
+
+### Confirmación en Computrabajo
+![Postulación confirmada en la web de Computrabajo](images/image-3.png)
+
+---
+
 ## Ejemplos de Uso
 
 Una vez conectado, puedes preguntarle a Claude de forma natural:
