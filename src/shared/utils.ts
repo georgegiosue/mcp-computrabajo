@@ -19,22 +19,28 @@ export function buildSearchUrl(
   location?: string,
   page?: number,
 ): string {
-  const slug = keyword.toLowerCase().replace(/\s+/g, "-");
-  let url = `https://${country}.computrabajo.com/trabajo-de-${slug}`;
+  const allowed = new Set(["pe", "co", "mx", "ar", "cl", "ec"]);
+  const c = allowed.has(country) ? country : "pe";
+  const slug = encodeURIComponent(keyword.toLowerCase().replace(/\s+/g, "-"));
+  let url = `https://${c}.computrabajo.com/trabajo-de-${slug}`;
   if (location) {
-    const locSlug = location.toLowerCase().replace(/\s+/g, "-");
+    const locSlug = encodeURIComponent(location.toLowerCase().replace(/\s+/g, "-"));
     url = `${url}-en-${locSlug}`;
   }
   if (page && page > 1) {
-    url = `${url}?p=${page}`;
+    url = `${url}?p=${encodeURIComponent(String(page))}`;
   }
   return url;
 }
 
 export function buildDetailUrl(offerId: string): string {
-  return `https://oferta.computrabajo.com/offer/${offerId}/d/j?ipo=3&iapo=1`;
+  const id = encodeURIComponent(offerId);
+  return `https://oferta.computrabajo.com/offer/${id}/d/j?ipo=3&iapo=1`;
 }
 
 export function buildApplyUrl(country: string, offerId: string): string {
-  return `https://candidato.${country}.computrabajo.com/candidate/apply/?oi=${offerId}&p=280&idb=1&d=32&lc=ListOffers&d=33`;
+  const allowed = new Set(["pe", "co", "mx", "ar", "cl", "ec"]);
+  const c = allowed.has(country) ? country : "pe";
+  const id = encodeURIComponent(offerId);
+  return `https://candidato.${c}.computrabajo.com/candidate/apply/?oi=${id}&p=280&idb=1&d=32&lc=ListOffers&d=33`;
 }
