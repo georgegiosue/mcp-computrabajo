@@ -1,7 +1,7 @@
 {
   "name": "mcp-computrabajo",
   "description": "A Model Context Protocol (MCP) server for accessing Computrabajo job listings in Latin America",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "module": "src/index.ts",
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
@@ -34,24 +34,32 @@
     "dist/src/*.d.ts"
   ],
   "scripts": {
-    "build": "bun build --target=node ./src/index.ts --outdir=dist/src && bun run build:declaration",
+    "build": "rm -rf dist && bun build --target=node ./src/index.ts --outdir=dist/src && bun run build:declaration",
     "build:declaration": "tsc --emitDeclarationOnly --project tsconfig.types.json",
     "format": "bunx biome check --write",
     "prepare": "husky",
     "prepublishOnly": "bun run build",
     "inspect": "bunx @modelcontextprotocol/inspector bun src/index.ts",
+    "typecheck": "bun run cf-typegen && tsc --noEmit --project tsconfig.json && tsc --noEmit --project tsconfig.worker.json",
+    "cf-typegen": "wrangler types",
+    "dev:worker": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "inspect:worker": "bunx @modelcontextprotocol/inspector",
     "test": "bun test"
   },
   "devDependencies": {
     "@biomejs/biome": "2.4.8",
+    "@modelcontextprotocol/client": "2.0.0",
     "@types/bun": "1.3.11",
-    "husky": "9.1.7"
+    "husky": "9.1.7",
+    "wrangler": "4.120.0"
   },
   "peerDependencies": {
     "typescript": "5.8.3"
   },
   "dependencies": {
-    "@modelcontextprotocol/sdk": "1.27.1",
+    "@cloudflare/workers-oauth-provider": "0.10.2",
+    "@modelcontextprotocol/server": "2.0.0",
     "cheerio": "1.2.0",
     "zod": "4.3.6"
   }

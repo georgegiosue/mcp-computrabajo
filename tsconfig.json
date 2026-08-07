@@ -11,6 +11,7 @@
     "target": "esnext",
     "moduleResolution": "bundler",
     "moduleDetection": "force",
+    "resolveJsonModule": true,
     "allowImportingTsExtensions": true,
     "noEmit": true,
     "composite": true,
@@ -23,5 +24,11 @@
     "allowJs": true,
     "types": ["bun-types"]
   },
-  "include": ["./src/**/*.ts", "./tests/**/*.ts"]
+  "include": ["./src/**/*.ts", "./tests/**/*.ts", "./package.json"],
+  "exclude": [
+    "./src/worker.ts",
+    "./src/mcp-handler.ts",
+    "./src/auth/index.ts",
+    "./src/env.d.ts"
+  ]
 }

@@ -1,0 +1,13 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "composite": false,
+    "types": []
+  },
+  "include": ["./src/**/*.ts", "./worker-configuration.d.ts", "./package.json"],
+  "exclude": [
+    "./src/index.ts",
+    "./src/config/node-config.ts",
+    "./src/infrastructure/mcp/stdio.ts"
+  ]
+}

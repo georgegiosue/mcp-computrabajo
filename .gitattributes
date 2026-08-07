@@ -1,0 +1,3 @@
+worker-configuration.d.ts linguist-generated=true -diff
+bun.lock -diff
+tests/fixtures/*.html linguist-vendored=true -diff

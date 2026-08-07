@@ -2,3 +2,6 @@ node_modules/
 dist/
 bun.lock
 .claude/
+.wrangler/
+.dev.vars
+.DS_Store
