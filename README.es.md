@@ -1,250 +1,118 @@
-# ![MCP Logo](https://avatars.githubusercontent.com/u/182288589?s=26&v=4) MCP Computrabajo
+# MCP Computrabajo
 
-> Un servidor del Protocolo de Contexto de Modelo (MCP) para buscar y postular a empleos en Computrabajo, la bolsa de trabajo más grande de Latinoamérica
+Servidor MCP para Computrabajo, la bolsa de empleo más grande de Latinoamérica: busca ofertas, lee la publicación completa, consulta tu propio CV y postula.
 
 [![NPM Version](https://img.shields.io/npm/v/mcp-computrabajo?style=flat&logo=npm&logoColor=red)](https://www.npmjs.com/package/mcp-computrabajo)
-[![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=flat&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
-[![Bun](https://img.shields.io/badge/Bun-000000?style=flat&logo=bun&logoColor=white)](https://bun.sh)
-[![MCP](https://img.shields.io/badge/MCP-Model%20Context%20Protocol-blue)](https://modelcontextprotocol.io)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-- **English**: [README.md](README.md)
-- **Español**: [README.es.md](README.es.md) (Estás aquí)
+[English](README.md) · **Español**
 
-**MCP Computrabajo** es un servidor del Protocolo de Contexto de Modelo que proporciona a los asistentes de IA acceso a las ofertas de empleo de [Computrabajo](https://www.computrabajo.com/). Busca empleos, consulta detalles completos y postula — todo a través de herramientas MCP estandarizadas.
+## Conectar
 
----
+**Claude Desktop y claude.ai** — Configuración → Conectores → Agregar conector personalizado:
 
-## ¿Qué puedes hacer con este MCP?
-
-- **Buscar ofertas de empleo** por palabra clave y ubicación en múltiples países
-- **Ver detalles completos** incluyendo descripción, requisitos, salario, beneficios e información de la empresa
-- **Postular a empleos** directamente usando tu sesión autenticada de Computrabajo
-
----
-
-## Inicio Rápido
-
-### Requisitos previos
-
-- [Bun](https://bun.sh) v1.2.10+ o Node.js v18+
-- Un cliente compatible con MCP (Claude Desktop, Claude Code, etc.)
-- Una cuenta en [Computrabajo](https://www.computrabajo.com/) con cookies de sesión activas
-
-### Obtener tus cookies de sesión
-
-1. Inicia sesión en [Computrabajo](https://www.computrabajo.com/) desde tu navegador
-2. Abre DevTools (F12) → pestaña Red (Network)
-3. Navega a cualquier página de Computrabajo
-4. Clic derecho en una solicitud → Copiar como cURL
-5. Extrae la cadena de cookies del flag `-b` o `--cookie`
-
-### Opción 1: Claude Desktop (Recomendado)
-
-Abre el archivo de configuración de Claude Desktop:
-
-- **macOS**: `~/Library/Application Support/Claude/claude_desktop_config.json`
-- **Windows**: `%APPDATA%\Claude\claude_desktop_config.json`
-- **Linux**: `~/.config/Claude/claude_desktop_config.json`
-
-```json
-{
-  "mcpServers": {
-    "computrabajo": {
-      "command": "npx",
-      "args": ["mcp-computrabajo@latest"],
-      "env": {
-        "CT_COOKIES": "ut=...; uca=...; ncac=...; nca=...; trl=...",
-        "CT_COUNTRY": "pe"
-      }
-    }
-  }
-}
+```
+https://mcp-computrabajo.georgegiosue.dev/mcp
 ```
 
-Reinicia Claude Desktop. Verás un indicador MCP cuando el servidor esté conectado.
-
-### Opción 2: Claude Code
+**Claude Code**
 
 ```bash
-claude mcp add --transport stdio \
-  --env CT_COOKIES="ut=...; uca=...; ncac=...; nca=...; trl=..." \
-  --env CT_COUNTRY=pe \
-  computrabajo -- npx mcp-computrabajo@latest
+claude mcp add --transport http computrabajo https://mcp-computrabajo.georgegiosue.dev/mcp
 ```
 
-### Opción 3: Claude Desktop (con Bun)
+Al conectar se abre una página que pide tu cookie de sesión de Computrabajo.
+Solo se necesita para leer tu CV y postular — elige **Skip — search only** para
+conectarte sin ella. La cookie se guarda cifrada y asociada únicamente a esa
+conexión, y se descarta cuando la desconectas.
 
-```json
-{
-  "mcpServers": {
-    "computrabajo": {
-      "command": "bun",
-      "args": ["/ruta/absoluta/a/mcp-computrabajo/src/index.ts"],
-      "env": {
-        "CT_COOKIES": "ut=...; uca=...; ncac=...; nca=...; trl=...",
-        "CT_COUNTRY": "pe"
-      }
-    }
-  }
-}
-```
+Para obtenerla: inicia sesión en Computrabajo, abre DevTools → Network, haz clic
+derecho en cualquier petición → Copiar como cURL, y copia el valor después de
+`-b`. Quien tenga esa cookie puede actuar como tú, así que pega solo una que
+hayas generado tú.
 
-### Opción 4: Claude Code (con Bun)
+## Cómo se ve
+
+> **Tú:** Busca trabajos de backend en Lima que realmente encajen con mi CV.
+
+> **Claude:** Tu CV es Full Stack — Rust, TypeScript, Angular, SQL Server, cuatro años. De las 20 vacantes en Lima, 6 calzan. La más cercana es Arquitecto de Software en EDPYME Inversiones La Cruz, publicada hace 2 horas, híbrido en San Isidro. ¿Te muestro la publicación completa?
+
+> **Tú:** Sí, ¿y cuánto paga?
+
+> **Claude:** No indica sueldo. Pide 5 años y título en sistemas — tienes el título, te falta un año de experiencia. 2 vacantes, contrato indefinido.
+
+> **Tú:** Postula.
+
+> **Claude:** Eso envía MI_CV.pdf, tu CV predeterminado, y no se puede deshacer. ¿Confirmas?
+
+## Herramientas
+
+| Herramienta | Qué hace | Recibe |
+|-------------|----------|--------|
+| `search-jobs` | Busca ofertas por palabra clave y ubicación | `keyword`, `location?`, `country?`, `page?` |
+| `get-job-detail` | Publicación completa: descripción, sueldo, beneficios, empresa | `offerId`, `country?` |
+| `get-profile` | Tu CV: resumen, experiencia, estudios, idiomas, habilidades | `country?` |
+| `list-attached-cvs` | Tus CVs en Word/PDF subidos y cuál es el predeterminado | `country?` |
+| `apply-to-job` | Envía tu CV a una oferta | `offerId`, `country?` |
+
+`get-profile`, `list-attached-cvs` y `apply-to-job` necesitan la cookie de
+sesión; buscar no. `country` es uno de `pe`, `co`, `mx`, `ar`, `cl`, `ec` y por
+defecto es `pe`.
+
+Las palabras clave y ubicaciones son slugs en minúscula con guiones —
+`desarrollador-de-software`, `la-libertad-en-trujillo`. Computrabajo compara la
+palabra clave contra el título del puesto, así que la redacción importa: para
+roles técnicos usa `desarrollador-...`, `programador`, `analista-programador` o
+un sustantivo suelto como `software`. Evita `ingeniero-de-software` — en
+Latinoamérica esa forma trae avisos de civil, mecánica y minería.
+
+## Ejecutarlo tú mismo
+
+El paquete de npm publica el mismo servidor por stdio:
 
 ```bash
-claude mcp add --transport stdio \
-  --env CT_COOKIES="ut=...; uca=...; ncac=...; nca=...; trl=..." \
-  --env CT_COUNTRY=pe \
-  computrabajo -- bun /ruta/absoluta/a/mcp-computrabajo/src/index.ts
+claude mcp add computrabajo --env CT_COOKIES="<tu cookie>" -- npx mcp-computrabajo@latest
 ```
 
-### Opción 5: Clonar y ejecutar localmente
-
-```bash
-git clone https://github.com/georgegiosue/mcp-computrabajo.git
-cd mcp-computrabajo
-bun install
-```
-
-> **Tip:** Usa el Inspector MCP para depuración: `bun run inspect`
-
----
-
-## Autenticación
-
-Las cookies **solo son necesarias para postular a empleos** (`apply-to-job`). Buscar y ver detalles de ofertas funciona sin autenticación.
-
-### Orden de resolución de cookies
-
-El MCP lee las cookies de la primera fuente disponible:
-
-1. Variable de entorno `CT_COOKIES`
-2. Archivo en la variable de entorno `CT_COOKIES_FILE`
-3. `~/.computrabajo/cookies.txt`
-
-## Variables de Entorno
-
-| Variable | Requerida | Default | Descripción |
-|----------|-----------|---------|-------------|
-| `CT_COOKIES` | No | — | Cadena completa de cookies de tu sesión del navegador |
-| `CT_COOKIES_FILE` | No | `~/.computrabajo/cookies.txt` | Ruta a un archivo con la cadena de cookies |
-| `CT_COUNTRY` | No | `pe` | Código de país: `pe`, `co`, `mx`, `ar`, `cl`, `ec` |
-
----
-
-## Herramientas Disponibles
-
-| Herramienta | Descripción | Parámetros |
-|-------------|-------------|------------|
-| `search-jobs` | Busca ofertas de empleo por palabra clave y ubicación | `keyword`, `location?`, `country?`, `page?` |
-| `get-job-detail` | Obtiene los detalles completos de una oferta | `offerId`, `country?` |
-| `apply-to-job` | Postula a una oferta de empleo (requiere autenticación) | `offerId`, `country?` |
-
----
-
-## Capturas de Pantalla
-
-### Búsqueda de empleos
-![Buscando empleos de ingeniería de software en Lima](images/image-1.png)
-
-### Postulación a una oferta
-![Postulando a una oferta de empleo a través de Claude Code](images/image-2.png)
-
-### Confirmación en Computrabajo
-![Postulación confirmada en la web de Computrabajo](images/image-3.png)
-
----
-
-## Ejemplos de Uso
-
-Una vez conectado, puedes preguntarle a Claude de forma natural:
-
-- *"Busca empleos de software en Lima"*
-- *"Encuentra trabajos remotos de desarrollador Python en Perú"*
-- *"Muéstrame los detalles de esta oferta de trabajo"*
-- *"Postúlame a este empleo"*
-- *"Busca empleos de marketing en Trujillo, página 2"*
-
----
-
-## Países Soportados
-
-| Código | País |
-|--------|------|
-| `pe` | Perú |
-| `co` | Colombia |
-| `mx` | México |
-| `ar` | Argentina |
-| `cl` | Chile |
-| `ec` | Ecuador |
-
----
-
-## Estructura del Proyecto
-
-```
-mcp-computrabajo/
-├── src/
-│   ├── config/                        # Configuración de API y manejo de cookies
-│   ├── domain/
-│   │   ├── models/                    # Interfaces de modelos del dominio
-│   │   └── ports/                     # Interfaz del repositorio (contrato)
-│   ├── infrastructure/
-│   │   ├── http/                      # Repositorio HTTP (fetch + cheerio)
-│   │   └── mcp/
-│   │       └── tools/
-│   │           ├── index.ts           # Registra todas las herramientas
-│   │           ├── tool.ts            # Interfaz Tool + helper register()
-│   │           ├── error.ts           # errorResponse() compartido
-│   │           └── job/
-│   │               ├── search-jobs/
-│   │               ├── get-job-detail/
-│   │               └── apply-to-job/
-│   ├── shared/                        # Utilidades compartidas
-│   └── index.ts                       # Punto de entrada del servidor MCP
-├── package.json
-└── tsconfig.json
-```
-
----
+| Variable | Default | Descripción |
+|----------|---------|-------------|
+| `CT_COOKIES` | — | Cadena de cookies de tu sesión del navegador |
+| `CT_COOKIES_FILE` | `~/.computrabajo/cookies.txt` | Archivo con la cookie, como alternativa |
+| `CT_COUNTRY` | `pe` | Código de país por defecto |
 
 ## Desarrollo
 
 ```bash
-# Instalar dependencias
 bun install
-
-# Ejecutar con el Inspector MCP
-bun run inspect
-
-# Formatear código
-bun run format
-
-# Compilar
-bun run build
+bun run typecheck      # ambas entradas: stdio y Worker
+bun test
+bun run inspect        # MCP Inspector contra el servidor stdio
+bun run dev:worker     # Worker en http://localhost:8787/mcp
+bun run deploy         # requiere `wrangler login`
 ```
 
----
+Solo la primera vez — crea el namespace de KV que respalda los permisos OAuth y
+coloca su id en `wrangler.jsonc`:
 
-## Contribuciones
+```bash
+bunx wrangler kv namespace create OAUTH_KV
+```
 
-1. Haz fork del repositorio
-2. Crea una rama de característica (`git checkout -b feature/nueva-caracteristica`)
-3. Formatea tu código (`bun run format`)
-4. Confirma tus cambios
-5. Abre un Pull Request
+## Migrar desde 0.x
 
----
+La v1.0.0 trae cambios incompatibles: los resultados vienen envueltos
+(`{ jobs: [...] }`, `{ job: {...} }`) y se exponen como `structuredContent` de
+MCP; `country` es un enum en vez de una cadena libre; el servidor está construido
+sobre el SDK v2 de MCP; y desaparecen el envoltorio `Tool`, `findPackageJson` y
+los helpers `api.getCookies()`. Los nombres de las herramientas y las variables
+de entorno no cambian.
+
+`apply-to-job` además ahora reporta con honestidad. La 0.x devolvía
+`success: true` ante cualquier HTTP 2xx, incluso cuando Computrabajo había
+rechazado la postulación; ahora solo reporta éxito con el código `OfferAppliedOk`
+del propio sitio.
 
 ## Licencia
 
-Licencia MIT - ver [LICENSE](LICENSE) para más detalles.
-
----
-
-## Reconocimientos
-
-- [Computrabajo](https://www.computrabajo.com/) — La bolsa de trabajo más grande de Latinoamérica
-- [Model Context Protocol](https://modelcontextprotocol.io) — Especificación MCP
-- [Bun](https://bun.sh) — Runtime rápido de JavaScript
+MIT — ver [LICENSE](LICENSE). Sin afiliación con Computrabajo. Dudas y
+problemas: [GitHub Issues](https://github.com/georgegiosue/mcp-computrabajo/issues).

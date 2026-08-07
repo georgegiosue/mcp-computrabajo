@@ -1,17 +1,24 @@
-import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import type { McpServer } from "@modelcontextprotocol/server";
 import type { ComputrabajoRepository } from "../../../domain/ports/computrabajo.repository";
-import { tool as applyToJob } from "./job/apply-to-job/apply-to-job";
-import { tool as getJobDetail } from "./job/get-job-detail/get-job-detail";
-import { tool as searchJobs } from "./job/search-jobs/search-jobs";
-import { register, type Tool } from "./tool";
+import { register as applyToJob } from "./job/apply-to-job";
+import { register as getJobDetail } from "./job/get-job-detail";
+import { register as searchJobs } from "./job/search-jobs";
+import { register as getProfile } from "./profile/get-profile";
+import { register as listAttachedCvs } from "./profile/list-attached-cvs";
 
-const tools = [searchJobs, getJobDetail, applyToJob];
+const tools = [
+  searchJobs,
+  getJobDetail,
+  applyToJob,
+  getProfile,
+  listAttachedCvs,
+];
 
-export async function registerTools(
+export function registerTools(
   server: McpServer,
   repository: ComputrabajoRepository,
-) {
-  for (const tool of tools as Tool<unknown>[]) {
-    register(server, repository, tool);
+): void {
+  for (const register of tools) {
+    register(server, repository);
   }
 }

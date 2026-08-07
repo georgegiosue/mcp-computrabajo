@@ -1,0 +1,5 @@
+# Cloudflare Workers deployment
+wrangler.jsonc
+worker-configuration.d.ts
+tsconfig.worker.json
+.wrangler/

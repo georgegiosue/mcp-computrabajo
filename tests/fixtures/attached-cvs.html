@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="es">
+<body>
+<form action="/candidate/cv/uploadcv" method="post">
+  <section>
+    <article class="box">
+      <header><h2>Currículum en Word/PDF</h2></header>
+      <div class="table_box box_hojadevida">
+        <ul class="header">
+          <li class="tableof_col1">por defecto</li>
+          <li class="tableof_col2">Currículum en Word/PDF</li>
+          <li class="tableof_col3">Acciones</li>
+        </ul>
+        <ul class="fila_tabla">
+          <li class="tableof_col1"><input type="radio" id="rbNoCV" name="rbPrincipal" value="0" /></li>
+          <li class="tableof_col2 border_r_none">No adjuntar ningún CV en Word/PDF a mis postulaciones</li>
+          <li class="tableof_col3">&nbsp;</li>
+        </ul>
+        <ul class="fila_tabla">
+          <li class="tableof_col1">
+            <input type="radio" id="rb1" name="rbPrincipal" value="CV1111" checked='checked' />
+          </li>
+          <li class="tableof_col2">
+            <a href="#" class="it-file bWord" data-filecandidateid="CV1111">
+              LOVELACE_CV.pdf
+            </a>
+          </li>
+          <li class="tableof_col3">
+            <span class="icon papelera cp" data-filecandidateid="CV1111"></span>
+          </li>
+        </ul>
+        <ul class="fila_tabla">
+          <li class="tableof_col1">
+            <input type="radio" id="rb2" name="rbPrincipal" value="CV2222" />
+          </li>
+          <li class="tableof_col2">
+            <a href="#" class="it-file bWord" data-filecandidateid="CV2222">
+              LOVELACE_CV_EN.docx
+            </a>
+          </li>
+          <li class="tableof_col3">
+            <span class="icon papelera cp" data-filecandidateid="CV2222"></span>
+          </li>
+        </ul>
+      </div>
+    </article>
+  </section>
+</form>
+</body>
+</html>
