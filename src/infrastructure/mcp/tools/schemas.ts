@@ -10,6 +10,10 @@ export const countrySchema = z
 
 export const offerIdSchema = z
   .string()
+  .regex(
+    /^[0-9A-Fa-f]{32}$/,
+    "offerId must be a 32-character hexadecimal string",
+  )
   .describe(
     "The 32-character hexadecimal offer ID (e.g. '7688C0282117AF8561373E686DCF3405'). Obtained from search-jobs results.",
   );
