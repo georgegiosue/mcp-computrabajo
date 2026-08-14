@@ -5,7 +5,7 @@
     "": {
       "name": "mcp-computrabajo",
       "dependencies": {
-        "@cloudflare/workers-oauth-provider": "0.10.2",
+        "@cloudflare/workers-oauth-provider": "0.10.3",
         "@modelcontextprotocol/server": "2.0.0",
         "cheerio": "1.2.0",
         "zod": "4.3.6",
@@ -55,7 +55,7 @@
 
     "@cloudflare/workerd-windows-64": ["@cloudflare/workerd-windows-64@1.20260801.1", "", { "os": "win32", "cpu": "x64" }, "sha512-2oQz+Ksu4ji6e/+ZoYX+tWQEcxAii2p7l+iR8kx48W1llMalaufAsmVxTlk+3/vrM7D3/2c0iK448e0UQTcIMg=="],
 
-    "@cloudflare/workers-oauth-provider": ["@cloudflare/workers-oauth-provider@0.10.2", "", {}, "sha512-3yWtnPaZyNaiLuv9tWkWfEyqbILFsvfG0Q5RwZGJ2jkSkrOMM8IxKYaGCFakSGbMXmatvyrhFDCDZ70S6TVnqQ=="],
+    "@cloudflare/workers-oauth-provider": ["@cloudflare/workers-oauth-provider@0.10.3", "", {}, "sha512-25ufMONJir9PllqVpK4GwOOoSFgpYm3+bM6NBedj7ufMCIfNf5jk4OI0LPuTJBaJgLl2lGCLqFqEPJXcSuPopQ=="],
 
     "@cspotcode/source-map-support": ["@cspotcode/source-map-support@0.8.1", "", { "dependencies": { "@jridgewell/trace-mapping": "0.3.9" } }, "sha512-IchNf6dN4tHoMFIn/7OE8LWZ19Y6q/67Bmf6vnGREv8RSbBVb9LPJxEcnwrcwX6ixSvaiGoomAUvu4YSxXrVgw=="],
 
