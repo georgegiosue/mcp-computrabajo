@@ -1,7 +1,7 @@
 {
   "name": "mcp-computrabajo",
   "description": "A Model Context Protocol (MCP) server for accessing Computrabajo job listings in Latin America",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "module": "src/index.ts",
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
